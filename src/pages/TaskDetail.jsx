@@ -35,7 +35,7 @@ function TaskDetail({ tasks }) {
     <main className={styles.page}>
       <nav className={styles.nav}>
         <Link to="/" className={styles.backLink}>
-          ← Tableau de bord
+          Retour au Tableau de bord
         </Link>
       </nav>
 
