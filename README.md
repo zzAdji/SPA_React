@@ -1,0 +1,2 @@
+# SPA_React
+L’objectif de ce travail pratique est de valider l’acquisition des compétences fonda- mentales liées à la conception d’applications web modernes en mode déclaratif. Les étudiants devront structurer une application de type Single Page Application (SPA) de bout en bout, en respectant scrupuleusement les contraintes d’immuabilité, de découpage en composants autonomes, de cycle de vie et de routage dynamique.
