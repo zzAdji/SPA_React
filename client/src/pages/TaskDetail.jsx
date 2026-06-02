@@ -28,8 +28,8 @@ function TaskDetail({ tasks }) {
     )
   }
 
-  const { titre, description, statut } = task
-  const statutClass = STATUT_CLASS[statut] ?? styles.statutDefault
+  const { title, description, status } = task
+  const statutClass = STATUT_CLASS[status] ?? styles.statutDefault
 
   return (
     <main className={styles.page}>
@@ -42,8 +42,8 @@ function TaskDetail({ tasks }) {
       <article className={styles.detail}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Détail de la tâche</p>
-          <h1 className={styles.title}>{titre}</h1>
-          <span className={`${styles.badge} ${statutClass}`}>{statut}</span>
+          <h1 className={styles.title}>{title}</h1>
+          <span className={`${styles.badge} ${statutClass}`}>{status}</span>
         </header>
 
         <dl className={styles.properties}>
@@ -52,8 +52,8 @@ function TaskDetail({ tasks }) {
             <dd className={styles.valueMono}>{task.id}</dd>
           </div>
           <div className={styles.property}>
-            <dt className={styles.label}>Titre</dt>
-            <dd className={styles.value}>{titre}</dd>
+            <dt className={styles.label}>title</dt>
+            <dd className={styles.value}>{title}</dd>
           </div>
           <div className={styles.property}>
             <dt className={styles.label}>Description</dt>
@@ -63,7 +63,7 @@ function TaskDetail({ tasks }) {
             <dt className={styles.label}>Statut</dt>
             <dd className={styles.value}>
               <span className={`${styles.badgeInline} ${statutClass}`}>
-                {statut}
+                {status}
               </span>
             </dd>
           </div>

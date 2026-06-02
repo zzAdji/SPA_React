@@ -3,87 +3,126 @@ import styles from './TaskForm.module.css'
 
 const STATUTS = ['A faire', 'En cours', 'Termine']
 
-const ETAT_INITIAL = {
-  titre: '',
-  description: '',
-  statut: 'A faire',
-}
-
 function TaskForm({ onAddTask }) {
-  const [titre, setTitre] = useState(ETAT_INITIAL.titre)
-  const [description, setDescription] = useState(ETAT_INITIAL.description)
-  const [statut, setStatut] = useState(ETAT_INITIAL.statut)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [status, setStatus] = useState('A faire')
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
 
     const nouvelleTache = {
-      id: Date.now(),
-      titre: titre.trim(),
+      title: title.trim(),
       description: description.trim(),
-      statut,
+      status,
     }
 
-    onAddTask(nouvelleTache)
+    try {
+      const response = await fetch(
+        'http://localhost:5000/api/tasks',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(nouvelleTache),
+        }
+      )
 
-    setTitre(ETAT_INITIAL.titre)
-    setDescription(ETAT_INITIAL.description)
-    setStatut(ETAT_INITIAL.statut)
+      if (response.status === 201) {
+        const taskCreee = await response.json()
+
+        onAddTask(taskCreee)
+
+        setTitle('')
+        setDescription('')
+        setStatus('A faire')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit} noValidate>
-      <h2 className={styles.formTitle}>Nouvelle tâche</h2>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit}
+    >
+      <h2 className={styles.formTitle}>
+        Nouvelle tâche
+      </h2>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="task-titre">
+        <label
+          className={styles.label}
+          htmlFor="task-title"
+        >
           Titre
         </label>
+
         <input
-          id="task-titre"
+          id="task-title"
           className={styles.input}
           type="text"
-          value={titre}
-          onChange={(event) => setTitre(event.target.value)}
-          placeholder="Ex. Conception de l'ontologie"
+          value={title}
+          onChange={(e) =>
+            setTitle(e.target.value)
+          }
           required
         />
       </div>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="task-description">
+        <label
+          className={styles.label}
+          htmlFor="task-description"
+        >
           Description
         </label>
+
         <textarea
           id="task-description"
           className={`${styles.input} ${styles.textarea}`}
           value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          placeholder="Décrivez brièvement la tâche…"
+          onChange={(e) =>
+            setDescription(e.target.value)
+          }
           rows={3}
           required
         />
       </div>
 
       <div className={styles.field}>
-        <label className={styles.label} htmlFor="task-statut">
+        <label
+          className={styles.label}
+          htmlFor="task-status"
+        >
           Statut initial
         </label>
+
         <select
-          id="task-statut"
+          id="task-status"
           className={styles.select}
-          value={statut}
-          onChange={(event) => setStatut(event.target.value)}
+          value={status}
+          onChange={(e) =>
+            setStatus(e.target.value)
+          }
         >
           {STATUTS.map((option) => (
-            <option key={option} value={option}>
+            <option
+              key={option}
+              value={option}
+            >
               {option}
             </option>
           ))}
         </select>
       </div>
 
-      <button type="submit" className={styles.submit}>
+      <button
+        type="submit"
+        className={styles.submit}
+      >
         Ajouter la tâche
       </button>
     </form>

@@ -8,15 +8,15 @@ const STATUT_CLASS = {
 }
 
 function TaskCard({ task }) {
-  const { id, titre, description, statut } = task
-  const statutClass = STATUT_CLASS[statut] ?? styles.statutDefault
+  const { id, title, description, status } = task
+  const statutClass = STATUT_CLASS[status] ?? styles.statutDefault
 
   return (
     <Link to={`/task/${id}`} className={styles.link}>
       <article className={styles.card}>
         <header className={styles.header}>
-          <h2 className={styles.titre}>{titre}</h2>
-          <span className={`${styles.badge} ${statutClass}`}>{statut}</span>
+          <h2 className={styles.title}>{title}</h2>
+          <span className={`${styles.badge} ${statutClass}`}>{status}</span>
         </header>
         <p className={styles.description}>{description}</p>
       </article>
