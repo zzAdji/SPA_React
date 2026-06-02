@@ -1,31 +1,37 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const taskRoutes = require("./routes/taskRoutes");
+
+if (!MONGODB_URI) {
+  console.error("MONGODB_URI est manquant dans le fichier .env");
+  process.exit(1);
+}
 
 app.use(express.json());
 
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: CLIENT_URL
 }));
 
-mongoose.connect(
-  "mongodb://maserieamoi_db_user:jnlfY0jcMddiQrLX@ac-taihkzs-shard-00-00.ppf8wb3.mongodb.net:27017,ac-taihkzs-shard-00-01.ppf8wb3.mongodb.net:27017,ac-taihkzs-shard-00-02.ppf8wb3.mongodb.net:27017/taskdb?ssl=true&replicaSet=atlas-10bdy6-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
-)
-.then(() => {
-  console.log("MongoDB connecté");
-})
-.catch((err) => {
-  console.error("Erreur MongoDB :", err);
-});
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log("MongoDB connecte");
+  })
+  .catch((err) => {
+    console.error("Erreur MongoDB :", err);
+  });
 
 app.get("/api/ping", (req, res) => {
   res.json({
-    message: "Serveur TaskFlow opérationnel"
+    message: "Serveur TaskFlow operationnel"
   });
 });
 

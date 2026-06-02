@@ -12,6 +12,11 @@ Dans le dossier `server/taskflow-backend` :
 
 ```bash
 npm install
+```
+
+Puis compléter le `.env.example`. Ensuite :
+
+```bash
 nodemon server.js
 ```
 
